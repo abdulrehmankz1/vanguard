@@ -11,6 +11,7 @@ import {
   TreePine,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { ChapterReveal } from "@/components/ui/ChapterReveal";
 
 type StatFormat = "M" | "K" | "%" | "int";
 
@@ -199,17 +200,6 @@ export default function HorizontalCarousel() {
       });
 
       // Section header entrance (plays before the pin engages)
-      gsap.from(".hc-word", {
-        y: 80,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.08,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: ".hc-heading",
-          start: "top 85%",
-        },
-      });
       gsap.from(".hc-tag", {
         opacity: 0,
         x: -20,
@@ -242,37 +232,43 @@ export default function HorizontalCarousel() {
       id="campaigns"
       className="relative h-screen overflow-hidden"
     >
-      <div className="absolute top-0 left-0 right-0 z-20 pointer-events-none px-6 md:px-10 pt-8 flex justify-between items-start gap-6">
-        <div>
-          <span className="hc-tag inline-block font-label uppercase text-[11px] tracking-[0.3em] text-accent">
-            / Our Campaigns
-          </span>
-          <h2 className="hc-heading font-display text-4xl md:text-6xl leading-[0.9] uppercase mt-3">
-            <span className="block overflow-hidden">
-              <span className="hc-word inline-block mr-[0.12em]">Six</span>
-              <span className="hc-word inline-block mr-[0.12em]">Fights.</span>
-              <span className="hc-word inline-block mr-[0.12em]">All</span>
-              <span className="hc-word inline-block mr-[0.12em]">At</span>
-              <span className="hc-word inline-block">Once.</span>
+      <div className="absolute top-0 left-0 right-0 z-20 pointer-events-none pt-12 md:pt-16">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-10 flex justify-between items-end gap-6">
+          <div>
+            <span className="hc-tag inline-block font-label uppercase text-[11px] tracking-[0.3em] text-accent">
+              / Our Campaigns
             </span>
-          </h2>
+            <h2 className="hc-heading font-display text-6xl md:text-9xl leading-[0.9] uppercase mt-4 max-w-4xl">
+              <ChapterReveal
+                text="Six Fights."
+                className="block overflow-hidden"
+                margin="200px 0px"
+              />
+              <ChapterReveal
+                text="All At Once."
+                delay={0.4}
+                className="block overflow-hidden"
+                margin="200px 0px"
+              />
+            </h2>
+          </div>
+          <span className="hc-counter font-mono text-xs text-foreground/60 tabular-nums">
+            {String(active + 1).padStart(2, "0")} /{" "}
+            {String(CAMPAIGNS.length).padStart(2, "0")}
+          </span>
         </div>
-        <span className="hc-counter font-mono text-xs text-foreground/60 tabular-nums mt-2">
-          {String(active + 1).padStart(2, "0")} /{" "}
-          {String(CAMPAIGNS.length).padStart(2, "0")}
-        </span>
       </div>
 
       <div
         ref={trackRef}
-        className="flex h-screen items-center gap-8 pl-6 md:pl-10 pr-6 md:pr-10 pt-40"
+        className="flex h-screen items-center gap-8 pl-6 md:pl-10 pr-6 md:pr-10 pt-64 md:pt-[22rem]"
       >
         {CAMPAIGNS.map((c, i) => {
           const Icon = c.icon;
           return (
             <article
               key={c.title}
-              className="campaign-card shrink-0 w-[82vw] md:w-[46vw] xl:w-[42vw] h-[72vh] relative overflow-hidden border border-foreground/10"
+              className="campaign-card shrink-0 w-[82vw] md:w-[46vw] xl:w-[42vw] h-[60vh] relative overflow-hidden border border-foreground/10"
               style={{ background: c.bg, color: c.text }}
               data-cursor="explore"
             >

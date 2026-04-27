@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import { ArrowUpRight, Globe2, Cpu, Scale, Leaf, Shield } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useScrambleHover } from "@/hooks/useScrambleHover";
+import { ChapterReveal } from "@/components/ui/ChapterReveal";
 
 type Pillar = {
   num: string;
@@ -234,27 +234,10 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
 
 export default function ManifestoGrid() {
   const sectionRef = useRef<HTMLElement>(null);
-  const scrambleRef = useScrambleHover<HTMLHeadingElement>({
-    radius: 130,
-    effect: "lift",
-    maxLift: 10,
-  });
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      gsap.from(".mh-word", {
-        y: 120,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.08,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: ".manifesto-heading",
-          start: "top 82%",
-        },
-      });
-
       gsap.from(".manifesto-tag", {
         opacity: 0,
         x: -20,
@@ -293,18 +276,13 @@ export default function ManifestoGrid() {
             <span className="manifesto-tag inline-block font-label uppercase text-[11px] tracking-[0.3em] text-accent">
               / Manifesto
             </span>
-            <h2
-              ref={scrambleRef}
-              className="manifesto-heading font-display text-6xl md:text-9xl leading-[0.9] uppercase mt-4 max-w-4xl"
-            >
-              <span className="block overflow-hidden">
-                <span className="mh-word inline-block mr-[0.15em]" data-cursor-scramble>Five</span>
-                <span className="mh-word inline-block" data-cursor-scramble>Pillars.</span>
-              </span>
-              <span className="block overflow-hidden">
-                <span className="mh-word inline-block mr-[0.15em]" data-cursor-scramble>One</span>
-                <span className="mh-word inline-block" data-cursor-scramble>Movement.</span>
-              </span>
+            <h2 className="manifesto-heading font-display text-6xl md:text-9xl leading-[0.9] uppercase mt-4 max-w-4xl">
+              <ChapterReveal text="Five Pillars." className="block overflow-hidden" />
+              <ChapterReveal
+                text="One Movement."
+                delay={0.4}
+                className="block overflow-hidden"
+              />
             </h2>
           </div>
           <p className="manifesto-sub max-w-sm font-grotesk text-[15px] text-foreground/60 leading-relaxed">

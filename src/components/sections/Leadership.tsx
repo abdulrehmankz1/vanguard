@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Select, { type StylesConfig } from "react-select";
+import { ChapterReveal } from "@/components/ui/ChapterReveal";
 
 type Leader = {
   name: string;
@@ -134,6 +135,23 @@ export default function Leadership() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
+      gsap.from(".leadership-tag", {
+        opacity: 0,
+        x: -20,
+        duration: 0.7,
+        ease: "power2.out",
+        scrollTrigger: { trigger: ".leadership-tag", start: "top 90%" },
+      });
+
+      gsap.from(".leadership-sub", {
+        opacity: 0,
+        y: 20,
+        duration: 0.7,
+        delay: 0.4,
+        ease: "power2.out",
+        scrollTrigger: { trigger: ".leadership-sub", start: "top 90%" },
+      });
+
       gsap.fromTo(
         ".leadership-line",
         { strokeDashoffset: 1 },
@@ -171,38 +189,22 @@ export default function Leadership() {
     >
       <div className="max-w-[1600px] mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <div>
-            <span className="font-label uppercase text-[11px] tracking-[0.3em] text-accent">
-              / Leadership
-            </span>
-            <div className="relative mt-4 inline-block">
-              <h2 className="font-display text-7xl md:text-[11rem] leading-[0.85] uppercase">
-                Leadership
-              </h2>
-              <svg
-                className="absolute -bottom-1 left-0 w-full h-3"
-                viewBox="0 0 100 4"
-                preserveAspectRatio="none"
-                aria-hidden
-              >
-                <line
-                  className="leadership-line"
-                  x1="0"
-                  y1="2"
-                  x2="100"
-                  y2="2"
-                  stroke="#FF2D20"
-                  strokeWidth="1.2"
-                  pathLength="1"
-                  strokeDasharray="1"
-                />
-              </svg>
-            </div>
-            <p className="max-w-md font-mono text-sm text-foreground/60 mt-8">
-              Organizers, economists, and engineers — elected internally by the
-              membership. No consultants. No donors pulling strings.
-            </p>
-          </div>
+       <div className="flex flex-col">
+  <div className="leadership-tag font-label uppercase text-[11px] tracking-[0.3em] text-accent">
+    / Leadership
+  </div>
+
+  <div className="relative mt-4">
+    <h2 className="leadership-heading font-display text-6xl md:text-9xl leading-[0.9] uppercase max-w-4xl">
+      <ChapterReveal text="Leadership" className="block overflow-hidden" />
+    </h2>
+  </div>
+
+  <p className="leadership-sub max-w-md font-grotesk text-[15px] text-foreground/60 leading-relaxed mt-8">
+    Organizers, economists, and engineers — elected internally by the
+    membership. No consultants. No donors pulling strings.
+  </p>
+</div>
 
           <div className="w-full md:w-72">
             <label className="font-label uppercase text-[11px] tracking-[0.3em] text-foreground/60">

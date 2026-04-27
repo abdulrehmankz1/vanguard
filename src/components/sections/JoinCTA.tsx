@@ -5,6 +5,7 @@ import { Shield, Users, Globe, ArrowRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useMagneticEffect } from "@/hooks/useMagneticEffect";
+import { ChapterReveal } from "@/components/ui/ChapterReveal";
 
 const HEADING = "JOIN THE MOVEMENT";
 
@@ -34,22 +35,7 @@ export default function JoinCTA() {
         </span>
 
         <h2 className="mt-6 font-display uppercase leading-[0.82] text-[clamp(3rem,12vw,12rem)] tracking-brutal">
-          {HEADING.split("").map((ch, i) => (
-            <motion.span
-              key={i}
-              className="inline-block"
-              initial={{ y: 80, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{
-                delay: i * 0.03,
-                duration: 0.7,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-            >
-              {ch === " " ? " " : ch}
-            </motion.span>
-          ))}
+          <ChapterReveal text={HEADING} className="block overflow-hidden" />
         </h2>
 
         <p className="mt-10 max-w-xl font-mono text-sm md:text-base text-foreground/70 leading-relaxed">

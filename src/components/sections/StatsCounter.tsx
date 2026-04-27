@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { useScrambleHover } from "@/hooks/useScrambleHover";
+import { ChapterReveal } from "@/components/ui/ChapterReveal";
 
 type Format = "M" | "%" | "int";
 
@@ -196,28 +196,10 @@ export default function StatsCounter() {
   const sectionRef = useRef<HTMLElement>(null);
   // Cursor-reactive character scramble on any [data-cursor-scramble] inside
   // the heading — accent is dark so it reads against the acid-green panel.
-  const scrambleRef = useScrambleHover<HTMLHeadingElement>({
-    radius: 130,
-    accent: "#050505",
-    effect: "scramble",
-  });
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      // Heading word reveal
-      gsap.from(".stats-word", {
-        y: 120,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.08,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: ".stats-heading",
-          start: "top 82%",
-        },
-      });
-
       gsap.from(".stats-meta", {
         opacity: 0,
         y: 16,
@@ -258,19 +240,13 @@ export default function StatsCounter() {
       >
         <div className="relative z-10 max-w-[1600px] mx-auto">
           <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <h2
-              ref={scrambleRef}
-              className="stats-heading font-display text-5xl md:text-8xl leading-[0.9] uppercase"
-            >
-              <span className="block overflow-hidden">
-                <span className="stats-word inline-block mr-[0.15em]" data-cursor-scramble>The</span>
-                <span className="stats-word inline-block" data-cursor-scramble>Numbers</span>
-              </span>
-              <span className="block overflow-hidden">
-                <span className="stats-word inline-block mr-[0.15em]" data-cursor-scramble>Do</span>
-                <span className="stats-word inline-block mr-[0.15em]" data-cursor-scramble>Not</span>
-                <span className="stats-word inline-block" data-cursor-scramble>Lie.</span>
-              </span>
+            <h2 className="stats-heading font-display text-5xl md:text-8xl leading-[0.9] uppercase">
+              <ChapterReveal text="The Numbers" className="block overflow-hidden" />
+              <ChapterReveal
+                text="Do Not Lie."
+                delay={0.35}
+                className="block overflow-hidden"
+              />
             </h2>
             <span className="stats-meta flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em]">
               <span className="w-1.5 h-1.5 rounded-full bg-background animate-pulse" />

@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
+import { ChapterReveal } from "@/components/ui/ChapterReveal";
 
 const LINES = [
   "They built a century",
@@ -31,24 +32,6 @@ export default function ParallaxQuote() {
         });
       });
 
-      // Word-by-word clip reveal
-      gsap.utils.toArray<HTMLElement>(".quote-word-inner").forEach((el) => {
-        gsap.fromTo(
-          el,
-          { yPercent: 100 },
-          {
-            yPercent: 0,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 92%",
-              end: "top 55%",
-              scrub: 1,
-            },
-          },
-        );
-      });
-
       // Floating dot particles
       gsap.utils.toArray<HTMLElement>(".quote-particle").forEach((el, i) => {
         gsap.to(el, {
@@ -69,7 +52,7 @@ export default function ParallaxQuote() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[120vh] flex items-center justify-center overflow-hidden px-6 md:px-10 py-32"
+      className="relative min-h-[80vh] flex items-center justify-center overflow-hidden px-6 md:px-10 py-16 md:py-20"
     >
       <motion.div
         aria-hidden
@@ -100,18 +83,15 @@ export default function ParallaxQuote() {
         {LINES.map((line, i) => (
           <div
             key={i}
-            className="quote-line font-display uppercase leading-[0.9] text-[clamp(3rem,10vw,11rem)] tracking-brutal"
+            className={`quote-line font-display uppercase leading-[0.9] text-[clamp(3rem,10vw,11rem)] tracking-brutal ${
+              i === 2 ? "text-accent" : ""
+            }`}
           >
-            {line.split(" ").map((word, j) => (
-              <span
-                key={j}
-                className={`inline-block overflow-hidden align-top mr-[0.2em] ${
-                  i === 2 ? "text-accent" : ""
-                }`}
-              >
-                <span className="quote-word-inner inline-block">{word}</span>
-              </span>
-            ))}
+            <ChapterReveal
+              text={line}
+              delay={i * 0.45}
+              className="block overflow-hidden"
+            />
           </div>
         ))}
         <footer className="mt-14 flex items-center gap-4 font-mono text-xs md:text-sm text-foreground/60 uppercase tracking-[0.25em]">

@@ -3,28 +3,15 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { useScrambleHover } from "@/hooks/useScrambleHover";
+import { ChapterReveal } from "@/components/ui/ChapterReveal";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const scrambleRef = useScrambleHover<HTMLHeadingElement>({
-    radius: 160,
-    effect: "magnet",
-    maxLift: 14,
-  });
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      gsap.from(".hero-word", {
-        y: 120,
-        opacity: 0,
-        duration: 1.1,
-        stagger: 0.08,
-        ease: "power4.out",
-        delay: 0.25,
-      });
       gsap.from(".hero-fade-in", {
         opacity: 0,
         y: 24,
@@ -227,24 +214,18 @@ export default function Hero() {
           <span className="w-10 h-px bg-accent" />
         </div>
 
-        <h1
-          ref={scrambleRef}
-          className="hero-headline w-full max-w-[1700px] font-display leading-[0.82] uppercase text-[clamp(4rem,14vw,15rem)] tracking-brutal"
-        >
-          <span className="block overflow-hidden">
-            <span className="hero-word inline-block mr-[0.1em]" data-cursor-scramble>The</span>
-            <span className="hero-word inline-block" data-cursor-scramble>Future</span>
-          </span>
-          <span className="block overflow-hidden text-foreground/25">
-            <span className="hero-word inline-block mr-[0.1em]" data-cursor-scramble>Is</span>
-            <span className="hero-word inline-block mr-[0.1em]" data-cursor-scramble>Not</span>
-            <span className="hero-word inline-block" data-cursor-scramble>Given.</span>
-          </span>
-          <span className="block overflow-hidden text-accent">
-            <span className="hero-word inline-block mr-[0.1em]" data-cursor-scramble>It</span>
-            <span className="hero-word inline-block mr-[0.1em]" data-cursor-scramble>Is</span>
-            <span className="hero-word inline-block" data-cursor-scramble>Taken.</span>
-          </span>
+        <h1 className="hero-headline w-full max-w-[1700px] font-display leading-[0.82] uppercase text-[clamp(4rem,14vw,15rem)] tracking-brutal">
+          <ChapterReveal text="The Future" className="block overflow-hidden" />
+          <ChapterReveal
+            text="Is Not Given."
+            delay={0.35}
+            className="block overflow-hidden text-foreground/25"
+          />
+          <ChapterReveal
+            text="It Is Taken."
+            delay={0.75}
+            className="block overflow-hidden text-accent"
+          />
         </h1>
 
         <div className="hero-subcopy hero-fade-in flex flex-col items-center gap-8 max-w-2xl">
