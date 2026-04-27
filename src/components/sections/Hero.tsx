@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { MagneticButton } from "@/components/ui/MagneticButton";
+import { BleedButton } from "@/components/ui/BleedButton";
 import { ChapterReveal } from "@/components/ui/ChapterReveal";
 
 export default function Hero() {
@@ -234,9 +234,9 @@ export default function Hero() {
             institutions — a coalition of workers, technologists, and neighbors
             building the political infrastructure of the next century.
           </p>
-          <MagneticButton href="#join" variant="accent" size="lg">
+          <BleedButton href="#join" variant="accent" size="lg">
             Join The Movement
-          </MagneticButton>
+          </BleedButton>
         </div>
       </div>
     </section>

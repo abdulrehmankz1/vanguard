@@ -1,19 +1,16 @@
 "use client";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Users, Globe, ArrowRight } from "lucide-react";
+import { Shield, Users, Globe } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useMagneticEffect } from "@/hooks/useMagneticEffect";
 import { ChapterReveal } from "@/components/ui/ChapterReveal";
+import { BleedButton } from "@/components/ui/BleedButton";
 
 const HEADING = "JOIN THE MOVEMENT";
 
 export default function JoinCTA() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const magneticRef = useMagneticEffect<HTMLButtonElement>(0.25);
 
   return (
     <section
@@ -60,32 +57,9 @@ export default function JoinCTA() {
               placeholder="you@movement.org"
               aria-label="Email address"
             />
-            <motion.button
-              ref={magneticRef}
-              type="submit"
-              data-cursor="hover"
-              onHoverStart={() => setHovered(true)}
-              onHoverEnd={() => setHovered(false)}
-              className="relative overflow-hidden bg-accent text-background font-label uppercase text-sm tracking-[0.25em] px-10 py-5 flex items-center justify-center min-w-[200px] hover:bg-foreground transition-colors duration-300"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={hovered ? "go" : "join"}
-                  initial={{ y: 30, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -30, opacity: 0 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 420,
-                    damping: 28,
-                  }}
-                  className="flex items-center gap-3"
-                >
-                  {hovered ? "Let's Go" : "Join Now"}
-                  <ArrowRight className="w-4 h-4" />
-                </motion.span>
-              </AnimatePresence>
-            </motion.button>
+            <BleedButton type="submit" variant="accent" size="lg">
+              Join Now
+            </BleedButton>
           </form>
         ) : (
           <div className="mt-12 max-w-2xl border border-accent p-6 font-mono text-sm">

@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
-import { MagneticButton } from "@/components/ui/MagneticButton";
+import { BleedButton } from "@/components/ui/BleedButton";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -194,14 +194,14 @@ export default function Navbar() {
               className="hidden h-6 w-px bg-foreground/15 lg:block"
             />
 
-            <MagneticButton
+            <BleedButton
               href="#join"
-              variant="invert"
+              variant="accent"
               size="md"
               className="hidden sm:inline-flex"
             >
               Get Involved
-            </MagneticButton>
+            </BleedButton>
 
             <button
               onClick={() => setOpen(true)}

@@ -189,22 +189,25 @@ export default function Leadership() {
     >
       <div className="max-w-[1600px] mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-       <div className="flex flex-col">
-  <div className="leadership-tag font-label uppercase text-[11px] tracking-[0.3em] text-accent">
-    / Leadership
-  </div>
+          <div className="flex flex-col">
+            <div className="leadership-tag font-label uppercase text-[11px] tracking-[0.3em] text-accent">
+              / Leadership
+            </div>
 
-  <div className="relative mt-4">
-    <h2 className="leadership-heading font-display text-6xl md:text-9xl leading-[0.9] uppercase max-w-4xl">
-      <ChapterReveal text="Leadership" className="block overflow-hidden" />
-    </h2>
-  </div>
+            <div className="relative mt-4">
+              <h2 className="leadership-heading font-display text-6xl md:text-9xl leading-[0.9] uppercase max-w-4xl">
+                <ChapterReveal
+                  text="Leadership"
+                  className="block overflow-hidden"
+                />
+              </h2>
+            </div>
 
-  <p className="leadership-sub max-w-md font-grotesk text-[15px] text-foreground/60 leading-relaxed mt-8">
-    Organizers, economists, and engineers — elected internally by the
-    membership. No consultants. No donors pulling strings.
-  </p>
-</div>
+            <p className="leadership-sub max-w-md font-grotesk text-[15px] text-foreground/60 leading-relaxed mt-8">
+              Organizers, economists, and engineers — elected internally by the
+              membership. No consultants. No donors pulling strings.
+            </p>
+          </div>
 
           <div className="w-full md:w-72">
             <label className="font-label uppercase text-[11px] tracking-[0.3em] text-foreground/60">
