@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
@@ -11,6 +9,7 @@ import { BleedButton } from "@/components/ui/BleedButton";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
+  { label: "Home", href: "#home" },
   { label: "Manifesto", href: "#manifesto" },
   { label: "Campaigns", href: "#campaigns" },
   { label: "Leadership", href: "#leadership" },
@@ -25,46 +24,13 @@ type NavLinkProps = {
 };
 
 function NavLink({ href, label, active, onClick }: NavLinkProps) {
-  const rootRef = useRef<HTMLAnchorElement | null>(null);
-  const topRef = useRef<HTMLSpanElement | null>(null);
-  const bottomRef = useRef<HTMLSpanElement | null>(null);
-
-  useGSAP(
-    () => {
-      const el = rootRef.current;
-      const top = topRef.current;
-      const bot = bottomRef.current;
-      if (!el || !top || !bot) return;
-
-      gsap.set(bot, { yPercent: 110 });
-
-      const onEnter = () => {
-        gsap.to(top, { yPercent: -110, duration: 0.7, ease: "expo.out" });
-        gsap.to(bot, { yPercent: 0, duration: 0.7, ease: "expo.out" });
-      };
-      const onLeave = () => {
-        gsap.to(top, { yPercent: 0, duration: 0.75, ease: "expo.out" });
-        gsap.to(bot, { yPercent: 110, duration: 0.75, ease: "expo.out" });
-      };
-
-      el.addEventListener("mouseenter", onEnter);
-      el.addEventListener("mouseleave", onLeave);
-      return () => {
-        el.removeEventListener("mouseenter", onEnter);
-        el.removeEventListener("mouseleave", onLeave);
-      };
-    },
-    { scope: rootRef },
-  );
-
   return (
     <Link
-      ref={rootRef}
       href={href}
       onClick={onClick}
       data-cursor="hover"
       className={cn(
-        "relative inline-flex items-center gap-2.5 px-3 py-2 font-grotesk text-[14.5px] font-medium tracking-tight transition-colors",
+        "group relative inline-flex items-center gap-2.5 px-3 py-2 font-grotesk text-[14.5px] font-medium tracking-tight transition-colors",
         active
           ? "text-foreground"
           : "text-foreground/60 hover:text-foreground",
@@ -77,23 +43,15 @@ function NavLink({ href, label, active, onClick }: NavLinkProps) {
           active ? "opacity-100 scale-100" : "opacity-0 scale-75",
         )}
       />
-      <span
-        aria-hidden
-        className="relative inline-block overflow-hidden"
-        style={{ height: "1.2em" }}
-      >
+      <span className="relative inline-block">
+        {label}
         <span
-          ref={topRef}
-          className="inline-flex h-[1.2em] items-center will-change-transform"
-        >
-          {label}
-        </span>
-        <span
-          ref={bottomRef}
-          className="absolute left-0 top-0 inline-flex h-[1.2em] items-center will-change-transform"
-        >
-          {label}
-        </span>
+          aria-hidden
+          className={cn(
+            "absolute -bottom-0.5 left-0 h-px w-full bg-accent origin-left transition-transform duration-300 ease-out",
+            active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
+          )}
+        />
       </span>
     </Link>
   );
@@ -102,7 +60,7 @@ function NavLink({ href, label, active, onClick }: NavLinkProps) {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState<string>("");
+  const [active, setActive] = useState<string>("home");
 
   // Track any scroll past the very top — that drives the hairline + blur.
   useEffect(() => {

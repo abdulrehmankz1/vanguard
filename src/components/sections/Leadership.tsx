@@ -257,7 +257,7 @@ function LeaderCard({
       data-cursor="explore"
     >
       <div
-        className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 group-hover:scale-[1.06] transition-all duration-[800ms] ease-out"
+        className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 group-hover:scale-[1.06] transition-all duration-700 ease-out"
         style={{ backgroundImage: `url(${leader.photo})` }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
@@ -265,7 +265,8 @@ function LeaderCard({
 
       <div className="relative z-10 flex flex-col justify-end h-full p-6 md:p-8">
         <span className="font-label uppercase text-[10px] tracking-[0.3em] text-accent mb-2">
-          // {leader.dept}
+          {"// "}
+          {leader.dept}
         </span>
         <h3 className="font-display text-4xl md:text-5xl uppercase leading-none">
           {leader.name}

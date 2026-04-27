@@ -10,6 +10,7 @@ import "@/styles/globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CustomCursor from "@/components/layout/CustomCursor";
+import SmoothScroll from "@/components/layout/SmoothScroll";
 
 const bebas = Bebas_Neue({
   subsets: ["latin"],
@@ -60,6 +61,7 @@ export default function RootLayout({
       className={`${bebas.variable} ${dmSerif.variable} ${spaceMono.variable} ${barlow.variable} ${grotesk.variable}`}
     >
       <body className="font-mono bg-background text-foreground antialiased">
+        <SmoothScroll />
         <CustomCursor />
         <Navbar />
         {children}

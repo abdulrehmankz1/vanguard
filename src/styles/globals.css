@@ -3,9 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+  /* scroll-behavior is owned by Lenis (src/components/layout/SmoothScroll.tsx). */
   html,
   body {
     background-color: #050505;
