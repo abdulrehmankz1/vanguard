@@ -57,7 +57,7 @@ export default function JoinCTA() {
               placeholder="you@movement.org"
               aria-label="Email address"
             />
-            <BleedButton type="submit" variant="accent" size="lg">
+            <BleedButton type="submit" variant="card" size="lg">
               Join Now
             </BleedButton>
           </form>

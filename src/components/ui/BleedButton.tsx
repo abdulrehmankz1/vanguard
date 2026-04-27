@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type Variant = "accent" | "invert" | "ghost";
+type Variant = "accent" | "invert" | "ghost" | "card";
 type Size = "md" | "lg";
 
 type Props = {
@@ -47,6 +47,15 @@ const VARIANT: Record<
     base: "bg-transparent border border-foreground/25",
     fill: "bg-foreground",
     restText: "text-foreground",
+    hoverText: "text-background",
+  },
+  // Acid-green at rest, floods to warm-white (foreground) on hover.
+  // Avoids the page background tone so the button stays clearly visible
+  // against the dark site bg. Text stays dark in both states.
+  card: {
+    base: "bg-accent",
+    fill: "bg-foreground",
+    restText: "text-background",
     hoverText: "text-background",
   },
 };

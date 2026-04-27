@@ -154,7 +154,7 @@ export default function Navbar() {
 
             <BleedButton
               href="#join"
-              variant="accent"
+              variant="card"
               size="md"
               className="hidden sm:inline-flex"
             >
