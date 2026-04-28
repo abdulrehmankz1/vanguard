@@ -11,7 +11,7 @@ type Size = "md" | "lg";
 
 type Props = {
   children: ReactNode;
-  /** Renders as an anchor (Link) when provided; otherwise a `<button>`. */
+  /** Renders as a `<Link>` when provided; otherwise a `<button>`. */
   href?: string;
   type?: "button" | "submit";
   variant?: Variant;
@@ -20,6 +20,8 @@ type Props = {
   /** Hide the trailing arrow if false. */
   showArrow?: boolean;
   external?: boolean;
+  /** Click handler — only used when no `href` is provided. */
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const VARIANT: Record<
@@ -74,6 +76,7 @@ export function BleedButton({
   className,
   showArrow = true,
   external,
+  onClick,
 }: Props) {
   const [hovered, setHovered] = useState(false);
   const [origin, setOrigin] = useState({ x: 50, y: 50 });
@@ -155,6 +158,7 @@ export function BleedButton({
   return (
     <button
       type={type}
+      onClick={onClick}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       data-cursor="hover"
