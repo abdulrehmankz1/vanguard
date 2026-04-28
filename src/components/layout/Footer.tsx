@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { Twitter, Github, Youtube, Instagram } from "lucide-react";
 
 const columns = [
@@ -13,9 +14,19 @@ export default function Footer() {
       <div className="max-w-[1600px] mx-auto">
         <div className="grid md:grid-cols-5 gap-10 pb-16">
           <div className="md:col-span-2">
-            <h3 className="font-display text-6xl md:text-8xl leading-none tracking-wider">
-              VANGUARD
-            </h3>
+            <Link
+              href="/"
+              aria-label="Vanguard home"
+              data-cursor="hover"
+              className="inline-flex items-baseline gap-[3px] leading-none"
+            >
+              <h3 className="font-display text-6xl md:text-8xl leading-none tracking-wider">
+                VANGUARD
+              </h3>
+              <span className="font-display text-6xl md:text-8xl leading-none text-urgent">
+                .
+              </span>
+            </Link>
             <p className="mt-6 font-mono text-sm text-foreground/60 max-w-sm leading-relaxed">
               A political movement for the decade institutions are afraid to
               imagine. Paid for by the movement, authorized by no one.

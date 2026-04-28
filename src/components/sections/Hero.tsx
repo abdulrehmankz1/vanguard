@@ -235,7 +235,7 @@ export default function Hero() {
             institutions — a coalition of workers, technologists, and neighbors
             building the political infrastructure of the next century.
           </p>
-          <BleedButton href="#join" variant="card" size="lg">
+          <BleedButton href="/#join" variant="card" size="lg">
             Join The Movement
           </BleedButton>
         </div>

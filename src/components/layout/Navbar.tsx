@@ -9,11 +9,11 @@ import { BleedButton } from "@/components/ui/BleedButton";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { label: "Home", href: "#home" },
-  { label: "Manifesto", href: "#manifesto" },
-  { label: "Campaigns", href: "#campaigns" },
-  { label: "Leadership", href: "#leadership" },
-  { label: "Dispatch", href: "#join" },
+  { label: "Home", href: "/#home" },
+  { label: "Manifesto", href: "/#manifesto" },
+  { label: "Campaigns", href: "/#campaigns" },
+  { label: "Leadership", href: "/#leadership" },
+  { label: "Dispatch", href: "/#join" },
 ];
 
 type NavLinkProps = {
@@ -77,7 +77,12 @@ export default function Navbar() {
   // Mark the currently-in-view section as active
   useEffect(() => {
     const ids = Array.from(
-      new Set(NAV_ITEMS.map((i) => i.href.replace("#", ""))),
+      new Set(
+        NAV_ITEMS.map((i) => {
+          const idx = i.href.indexOf("#");
+          return idx === -1 ? "" : i.href.slice(idx + 1);
+        }).filter(Boolean),
+      ),
     );
     const sections = ids
       .map((id) => document.getElementById(id))
@@ -119,7 +124,7 @@ export default function Navbar() {
           )}
         >
           <Link
-            href="#"
+            href="/"
             aria-label="Vanguard home"
             data-cursor="hover"
             className="flex items-baseline gap-[3px] leading-none"
@@ -142,7 +147,7 @@ export default function Navbar() {
                   key={item.label}
                   href={item.href}
                   label={item.label}
-                  active={active === item.href.replace("#", "")}
+                  active={active === item.href.split("#")[1]}
                 />
               ))}
             </nav>
@@ -153,7 +158,7 @@ export default function Navbar() {
             />
 
             <BleedButton
-              href="#join"
+              href="/#join"
               variant="card"
               size="md"
               className="hidden sm:inline-flex"
