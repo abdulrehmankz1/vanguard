@@ -32,10 +32,10 @@
     color: #050505;
   }
 
-  /* Lock anchor colors to the current text colour — no browser blue / visited purple leaks. */
-  a,
-  a:visited,
-  a:active {
+  /* Lock anchor colors to the current text colour — no browser blue / visited purple leaks.
+     Wrapped in :where() so specificity is 0,0,0 and any text-* utility on the anchor wins
+     (otherwise `a:visited` at 0,1,1 would beat any single class selector). */
+  :where(a, a:visited, a:active) {
     color: inherit;
     text-decoration: none;
   }
