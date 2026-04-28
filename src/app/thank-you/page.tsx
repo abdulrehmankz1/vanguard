@@ -94,7 +94,7 @@ export default function ThankYouPage() {
 
         {/* Footer meta */}
         <div className="mt-auto pt-20 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.3em] text-foreground/40">
-          <span>// REF · CHAPTER_ZERO_DISPATCH</span>
+          <span>{"// REF · CHAPTER_ZERO_DISPATCH"}</span>
           <span className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
             Connection Live
