@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Bebas_Neue,
   DM_Serif_Display,
@@ -11,6 +11,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CustomCursor from "@/components/layout/CustomCursor";
 import SmoothScroll from "@/components/layout/SmoothScroll";
+import { siteConfig } from "@/lib/site-config";
 
 const bebas = Bebas_Neue({
   subsets: ["latin"],
@@ -44,10 +45,46 @@ const grotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "VANGUARD — A Political Movement For The Next Century",
-  description:
-    "The future is not given. It is taken. Join the 4.2M-strong coalition rebuilding the political infrastructure of the next century.",
-  metadataBase: new URL("https://vanguard.example"),
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.title,
+    template: `%s · ${siteConfig.shortName}`,
+  },
+  description: siteConfig.description,
+  keywords: [...siteConfig.keywords],
+  authors: [{ name: siteConfig.name }],
+  creator: siteConfig.name,
+  openGraph: {
+    type: "website",
+    url: siteConfig.url,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+    creator: siteConfig.twitter,
+  },
+  icons: {
+    icon: "/icon.svg",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: siteConfig.themeColor,
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
