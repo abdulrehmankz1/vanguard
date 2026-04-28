@@ -147,6 +147,7 @@ function PillarCard({
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       onMouseMove={handleMove}
+      data-cursor-theme={hovered ? "light" : undefined}
       className={`pillar-card group relative bg-surface border border-muted/30 overflow-hidden ${pillar.span}`}
       style={{ willChange: "transform" }}
     >

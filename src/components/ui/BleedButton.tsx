@@ -97,6 +97,11 @@ export function BleedButton({
   };
 
   const v = VARIANT[variant];
+  // accent / invert / card all have a light-coloured state somewhere in
+  // their lifecycle, so the cursor must use the dark palette while over
+  // them or it disappears against the yellow / warm-white fill.
+  const cursorTheme: "light" | undefined =
+    variant === "ghost" ? undefined : "light";
 
   const baseClass = cn(
     "relative overflow-hidden font-grotesk font-medium tracking-tight flex items-center justify-center",
@@ -139,6 +144,7 @@ export function BleedButton({
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         data-cursor="hover"
+        data-cursor-theme={cursorTheme}
         className={baseClass}
       >
         {inner}
@@ -152,6 +158,7 @@ export function BleedButton({
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
       data-cursor="hover"
+      data-cursor-theme={cursorTheme}
       className={baseClass}
     >
       {inner}

@@ -265,12 +265,15 @@ export default function HorizontalCarousel() {
       >
         {CAMPAIGNS.map((c, i) => {
           const Icon = c.icon;
+          // Light-coloured card backgrounds need the dark cursor palette to stay visible.
+          const isLightBg = c.bg === "#C8F400" || c.bg === "#F0EDE6";
           return (
             <article
               key={c.title}
               className="campaign-card shrink-0 w-[82vw] md:w-[46vw] xl:w-[42vw] h-[60vh] relative overflow-hidden border border-foreground/10"
               style={{ background: c.bg, color: c.text }}
               data-cursor="explore"
+              data-cursor-theme={isLightBg ? "light" : undefined}
             >
               <Icon
                 className="campaign-icon absolute -right-10 -bottom-20 w-[30rem] h-[30rem] opacity-20 pointer-events-none"

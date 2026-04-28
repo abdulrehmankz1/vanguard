@@ -62,26 +62,50 @@ export default function CustomCursor() {
     });
 
     let seeded = false;
+    let lastThemeCheck = 0;
     const onMove = (e: MouseEvent) => {
       if (!seeded) {
         gsap.set(dot, { x: e.clientX, y: e.clientY });
         gsap.set(ring, { x: e.clientX, y: e.clientY });
         seeded = true;
-        return;
+      } else {
+        dotX(e.clientX);
+        dotY(e.clientY);
+        ringX(e.clientX);
+        ringY(e.clientY);
       }
-      dotX(e.clientX);
-      dotY(e.clientY);
-      ringX(e.clientX);
-      ringY(e.clientY);
+
+      // Throttled theme re-check from the actual stack of elements at the
+      // pointer position. Catches cases where an element under the cursor
+      // dynamically gains/loses `data-cursor-theme` (e.g. cards toggling
+      // light on hover) — `mouseover` alone misses those.
+      const now = performance.now();
+      if (now - lastThemeCheck < 60) return;
+      lastThemeCheck = now;
+      const stack = document.elementsFromPoint(e.clientX, e.clientY);
+      let nextTheme: Theme = "dark";
+      for (const el of stack) {
+        const themeEl = (el as HTMLElement).closest("[data-cursor-theme]");
+        if (themeEl) {
+          const v = themeEl.getAttribute("data-cursor-theme") as Theme;
+          if (v === "light" || v === "dark") {
+            nextTheme = v;
+            break;
+          }
+        }
+      }
+      setTheme((prev) => (prev === nextTheme ? prev : nextTheme));
     };
 
     const onOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
-      // Theme: inherited from the nearest ancestor with data-cursor-theme.
+      // Theme is also evaluated on every move (above), but updating it here
+      // makes the swap feel instant when crossing element boundaries.
       const themeEl = target.closest("[data-cursor-theme]");
-      const themeVal = (themeEl?.getAttribute("data-cursor-theme") as Theme) ?? "dark";
+      const themeVal =
+        (themeEl?.getAttribute("data-cursor-theme") as Theme) ?? "dark";
       setTheme(themeVal);
 
       if (target.closest("[data-cursor='explore']")) setVariant("explore");
