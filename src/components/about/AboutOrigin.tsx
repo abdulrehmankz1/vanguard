@@ -64,7 +64,7 @@ export function AboutOrigin() {
             />
           </h2>
           <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.3em] text-foreground/45">
-            // Detroit Public Library · 2012
+            {"// Detroit Public Library · 2012"}
           </p>
         </aside>
 
