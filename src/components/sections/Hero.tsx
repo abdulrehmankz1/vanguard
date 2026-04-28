@@ -190,23 +190,6 @@ export default function Hero() {
         }}
       />
 
-      {/* HUD corner labels pinned to the section */}
-      <div className="pointer-events-none absolute top-28 left-6 md:left-10 font-mono text-[10px] tracking-[0.3em] text-accent/70 uppercase z-10">
-        {"// Network_Signal_01"}
-      </div>
-      <div className="pointer-events-none absolute top-28 right-6 md:right-10 font-mono text-[10px] text-accent flex items-center gap-2 z-10">
-        <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-        LIVE
-      </div>
-      <div className="pointer-events-none absolute bottom-6 left-6 md:left-10 font-mono text-[10px] text-foreground/50 z-10">
-        {"// VANGUARD_ASSEMBLY_2026"}
-      </div>
-      <div className="pointer-events-none absolute bottom-6 right-6 md:right-10 font-mono text-[10px] text-foreground/50 text-right z-10">
-        LAT 40.7128
-        <br />
-        LON -74.0060
-      </div>
-
       {/* Centered content stack */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-6 md:px-10 max-w-[1760px] mx-auto gap-10 pt-24 pb-20">
         <div className="hero-tag hero-fade-in flex items-center gap-4 font-label uppercase text-[11px] tracking-[0.35em] text-accent">
