@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#050505"/>
+  <text x="60" y="320" fill="#F0EDE6" font-family="'Bebas Neue', sans-serif" font-size="190" font-weight="400" letter-spacing="-2">VANGUARD</text>
+  <text x="60" y="380" fill="#C8F400" font-family="'Bebas Neue', sans-serif" font-size="56" letter-spacing="2">THE FUTURE IS NOT GIVEN. IT IS TAKEN.</text>
+  <text x="60" y="560" fill="#3A3A3A" font-family="monospace" font-size="22" letter-spacing="6">// POLITICAL MOVEMENT / EST. 2012</text>
+  <circle cx="1080" cy="120" r="14" fill="#C8F400"/>
+</svg>
