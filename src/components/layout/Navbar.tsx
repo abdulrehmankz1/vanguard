@@ -12,7 +12,7 @@ const NAV_ITEMS = [
   { label: "Home", href: "/#home" },
   { label: "Manifesto", href: "/#manifesto" },
   { label: "Campaigns", href: "/#campaigns" },
-  { label: "Leadership", href: "/#leadership" },
+  { label: "Volunteer", href: "/volunteer" },
   { label: "Dispatch", href: "/#join" },
 ];
 
@@ -158,12 +158,12 @@ export default function Navbar() {
             />
 
             <BleedButton
-              href="/#join"
+              href="/volunteer"
               variant="card"
               size="md"
               className="hidden sm:inline-flex"
             >
-              Get Involved
+              Volunteer
             </BleedButton>
 
             <button
