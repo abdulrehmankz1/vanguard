@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
@@ -13,7 +14,7 @@ const NAV_ITEMS = [
   { label: "About", href: "/about" },
   { label: "Events", href: "/events" },
   { label: "Volunteer", href: "/volunteer" },
-  { label: "Dispatch", href: "/#join" },
+  { label: "Donate", href: "/donate" },
 ];
 
 type NavLinkProps = {
@@ -57,10 +58,22 @@ function NavLink({ href, label, active, onClick }: NavLinkProps) {
   );
 }
 
+function isItemActive(href: string, pathname: string, scrollSection: string) {
+  // Hash anchor on the homepage — active only when on `/` and the scrolled-into
+  // section matches the hash target.
+  if (href.startsWith("/#")) {
+    return pathname === "/" && scrollSection === href.slice(2);
+  }
+  if (href === "/") return pathname === "/";
+  // Route link — active when pathname matches exactly or is a sub-route.
+  return pathname === href || pathname.startsWith(href + "/");
+}
+
 export default function Navbar() {
+  const pathname = usePathname() ?? "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState<string>("home");
+  const [scrollSection, setScrollSection] = useState<string>("home");
 
   // Track any scroll past the very top — that drives the hairline + blur.
   useEffect(() => {
@@ -74,8 +87,9 @@ export default function Navbar() {
     document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
 
-  // Mark the currently-in-view section as active
+  // Track the currently-in-view hash section — only relevant on the homepage.
   useEffect(() => {
+    if (pathname !== "/") return;
     const ids = Array.from(
       new Set(
         NAV_ITEMS.map((i) => {
@@ -92,14 +106,14 @@ export default function Navbar() {
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
+          if (entry.isIntersecting) setScrollSection(entry.target.id);
         });
       },
       { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
     );
     sections.forEach((s) => io.observe(s));
     return () => io.disconnect();
-  }, []);
+  }, [pathname]);
 
   return (
     <>
@@ -147,7 +161,7 @@ export default function Navbar() {
                   key={item.label}
                   href={item.href}
                   label={item.label}
-                  active={active === item.href.split("#")[1]}
+                  active={isItemActive(item.href, pathname, scrollSection)}
                 />
               ))}
             </nav>

@@ -9,6 +9,28 @@ import { ROLES } from "./VolunteerRoles";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
+function useBleed() {
+  const [hovered, setHovered] = useState(false);
+  const [origin, setOrigin] = useState({ x: 50, y: 50 });
+  const onEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setOrigin({
+      x: ((e.clientX - r.left) / r.width) * 100,
+      y: ((e.clientY - r.top) / r.height) * 100,
+    });
+    setHovered(true);
+  };
+  const onLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setOrigin({
+      x: ((e.clientX - r.left) / r.width) * 100,
+      y: ((e.clientY - r.top) / r.height) * 100,
+    });
+    setHovered(false);
+  };
+  return { hovered, origin, onEnter, onLeave };
+}
+
 const STATE_OPTIONS: SelectOption[] = [
   "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
   "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
@@ -445,31 +467,14 @@ export function VolunteerForm() {
                         Skills You Bring (select any)
                       </span>
                       <div className="flex flex-wrap gap-2">
-                        {SKILL_TAGS.map((s) => {
-                          const on = skills.includes(s);
-                          return (
-                            <button
-                              key={s}
-                              type="button"
-                              onClick={() => toggleSkill(s)}
-                              data-cursor="hover"
-                              className={`group relative px-3 py-2 font-mono text-[11px] uppercase tracking-[0.2em] border transition-all duration-300 ${
-                                on
-                                  ? "border-accent bg-accent/15 text-accent"
-                                  : "border-foreground/25 text-foreground/65 hover:border-accent hover:text-foreground"
-                              }`}
-                            >
-                              <span className="inline-flex items-center gap-1.5">
-                                <span
-                                  className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${
-                                    on ? "bg-accent" : "bg-foreground/30"
-                                  }`}
-                                />
-                                {s}
-                              </span>
-                            </button>
-                          );
-                        })}
+                        {SKILL_TAGS.map((s) => (
+                          <SkillChip
+                            key={s}
+                            label={s}
+                            on={skills.includes(s)}
+                            onToggle={() => toggleSkill(s)}
+                          />
+                        ))}
                       </div>
                     </motion.div>
                   </FormSection>
@@ -540,22 +545,10 @@ export function VolunteerForm() {
 
                   {/* Submit */}
                   <motion.div variants={fieldFade(0.05)} className="pt-6">
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      data-cursor="hover"
-                      data-cursor-theme="light"
-                      className="group relative w-full md:w-auto inline-flex items-center justify-center gap-3 h-14 min-w-[260px] px-8 bg-accent text-background font-grotesk font-medium tracking-tight text-[15px] overflow-hidden disabled:opacity-60 disabled:cursor-not-allowed"
-                    >
-                      <span
-                        aria-hidden
-                        className="absolute inset-0 bg-foreground origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out"
-                      />
-                      <span className="relative z-10 flex items-center gap-3 group-hover:text-background transition-colors duration-300">
-                        {submitting ? "Filing..." : "Submit Application"}
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" strokeWidth={2} />
-                      </span>
-                    </button>
+                    <SubmitButton
+                      submitting={submitting}
+                      label={submitting ? "Filing..." : "Submit Application"}
+                    />
                   </motion.div>
                 </motion.form>
               )}
@@ -643,6 +636,99 @@ function FieldInput(
       {...props}
       className="w-full h-12 bg-transparent border-b-2 border-muted/60 px-0 py-2 font-mono text-[14px] text-foreground placeholder:text-foreground/30 outline-none transition-colors focus:border-accent"
     />
+  );
+}
+
+function SkillChip({
+  label,
+  on,
+  onToggle,
+}: {
+  label: string;
+  on: boolean;
+  onToggle: () => void;
+}) {
+  const b = useBleed();
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      onMouseEnter={b.onEnter}
+      onMouseLeave={b.onLeave}
+      data-cursor="hover"
+      data-cursor-theme={on || b.hovered ? "light" : undefined}
+      className={`relative overflow-hidden px-3 py-2 font-mono text-[11px] uppercase tracking-[0.2em] border transition-colors duration-300 ${
+        on ? "border-accent bg-accent" : "border-foreground/25"
+      }`}
+    >
+      {!on && (
+        <motion.span
+          aria-hidden
+          className="absolute inset-0 bg-accent"
+          initial={{ clipPath: "circle(0% at 50% 50%)" }}
+          animate={{
+            clipPath: b.hovered
+              ? `circle(160% at ${b.origin.x}% ${b.origin.y}%)`
+              : `circle(0% at ${b.origin.x}% ${b.origin.y}%)`,
+          }}
+          transition={{ duration: 0.55, ease: EASE }}
+        />
+      )}
+      <span
+        className={`relative z-10 inline-flex items-center gap-1.5 transition-colors duration-300 ${
+          on || b.hovered ? "text-background" : "text-foreground/65"
+        }`}
+      >
+        <span
+          className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${
+            on || b.hovered ? "bg-background" : "bg-foreground/30"
+          }`}
+        />
+        {label}
+      </span>
+    </button>
+  );
+}
+
+function SubmitButton({
+  submitting,
+  label,
+}: {
+  submitting: boolean;
+  label: string;
+}) {
+  const b = useBleed();
+  return (
+    <button
+      type="submit"
+      disabled={submitting}
+      onMouseEnter={b.onEnter}
+      onMouseLeave={b.onLeave}
+      data-cursor="hover"
+      data-cursor-theme="light"
+      className="relative w-full md:w-auto inline-flex items-center justify-center gap-3 h-14 min-w-[260px] px-8 bg-accent overflow-hidden disabled:opacity-60 disabled:cursor-not-allowed font-grotesk font-medium tracking-tight text-[15px]"
+    >
+      <motion.span
+        aria-hidden
+        className="absolute inset-0 bg-foreground"
+        initial={{ clipPath: "circle(0% at 50% 50%)" }}
+        animate={{
+          clipPath: b.hovered
+            ? `circle(160% at ${b.origin.x}% ${b.origin.y}%)`
+            : `circle(0% at ${b.origin.x}% ${b.origin.y}%)`,
+        }}
+        transition={{ duration: 0.55, ease: EASE }}
+      />
+      <span className="relative z-10 flex items-center gap-3 text-background">
+        {label}
+        <ArrowRight
+          className={`w-4 h-4 transition-transform duration-300 ${
+            b.hovered ? "translate-x-1" : ""
+          }`}
+          strokeWidth={2}
+        />
+      </span>
+    </button>
   );
 }
 

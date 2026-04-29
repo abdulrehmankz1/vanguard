@@ -20,8 +20,8 @@ const columns: Column[] = [
     links: [
       { label: "Events", href: "/events" },
       { label: "Volunteer", href: "/volunteer" },
+      { label: "Donate", href: "/donate" },
       { label: "Chapters", href: "/#chapters" },
-      { label: "Donate", href: "/#join" },
     ],
   },
   {
