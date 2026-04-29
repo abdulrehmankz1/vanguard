@@ -30,9 +30,8 @@ export function AboutHero() {
     target: ref,
     offset: ["start start", "end start"],
   });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.18]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.1]);
 
   return (
     <section
@@ -42,7 +41,7 @@ export function AboutHero() {
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           aria-hidden
-          style={{ y: bgY, scale: bgScale }}
+          style={{ y: bgY, scale: bgScale, willChange: "transform" }}
           className="relative w-full h-full"
         >
           <Image
@@ -83,7 +82,7 @@ export function AboutHero() {
       />
 
       {/* ── Content ── */}
-      <motion.div style={{ y: contentY }} className="relative z-10 max-w-[1600px] w-full mx-auto">
+      <div className="relative z-10 max-w-[1600px] w-full mx-auto">
         <span className="inline-flex items-center gap-4 font-label uppercase text-[11px] tracking-[0.35em] text-accent">
           <span className="w-10 h-px bg-accent" />/ About — Origin Story
         </span>
@@ -105,12 +104,12 @@ export function AboutHero() {
         </p>
 
         {/* Stats with count-up + hover scramble */}
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 border-t border-foreground/25 max-w-5xl">
+        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 border border-foreground/25 max-w-5xl">
           {STATS.map((s, i) => (
             <StatCell key={s.label} stat={s} index={i} />
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
@@ -186,24 +185,22 @@ function StatCell({ stat, index }: { stat: Stat; index: number }) {
   }, [hovered, countedUp, stat.value, stat.format]);
 
   return (
-    <motion.div
+    <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      whileHover={{ y: -6 }}
-      transition={{ type: "spring", stiffness: 320, damping: 24 }}
       className={`group relative py-8 px-4 md:px-6 cursor-default overflow-hidden border-foreground/25 ${
         index % 2 === 1 ? "border-l" : ""
       } ${index === 2 ? "md:border-l" : ""} ${index >= 2 ? "border-t md:border-t-0" : ""}`}
     >
-      {/* Hover bg fill from below */}
+      {/* Hover bg fill from below — stays clipped inside the cell */}
       <span
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-0 bg-accent/10 group-hover:h-full transition-[height] duration-500 ease-out"
+        className="absolute inset-x-0 bottom-0 h-0 bg-accent/10 group-hover:h-full transition-[height] duration-500 ease-out pointer-events-none"
       />
       {/* Hover bottom accent bar */}
       <span
         aria-hidden
-        className="absolute bottom-0 left-0 h-[2px] w-0 bg-accent group-hover:w-full transition-[width] duration-500 ease-out"
+        className="absolute bottom-0 left-0 h-[2px] w-0 bg-accent group-hover:w-full transition-[width] duration-500 ease-out pointer-events-none"
       />
       {/* Index marker */}
       <span
@@ -215,19 +212,15 @@ function StatCell({ stat, index }: { stat: Stat; index: number }) {
 
       <motion.span
         ref={numRef}
-        animate={{
-          scale: hovered ? 1.06 : 1,
-          color: hovered ? "#C8F400" : "#F0EDE6",
-        }}
+        animate={{ color: hovered ? "#C8F400" : "#F0EDE6" }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="relative block font-display text-5xl md:text-7xl leading-none tracking-tight tabular-nums origin-left"
-        style={{ textShadow: hovered ? "0 0 24px rgba(200,244,0,0.35)" : "none" }}
+        className="relative block font-display text-5xl md:text-7xl leading-none tracking-tight tabular-nums"
       >
         {formatStat(0, stat.format)}
       </motion.span>
       <span className="relative block mt-3 font-mono text-[10px] uppercase tracking-[0.3em] text-foreground/55 group-hover:text-foreground transition-colors duration-500">
         {stat.label}
       </span>
-    </motion.div>
+    </div>
   );
 }
