@@ -2,10 +2,37 @@
 import Link from "next/link";
 import { Twitter, Github, Youtube, Instagram } from "lucide-react";
 
-const columns = [
-  { title: "Platform", links: ["Manifesto", "Campaigns", "Policy Library", "Research"] },
-  { title: "Network", links: ["Chapters", "Events", "Volunteer", "Donate"] },
-  { title: "Press", links: ["Newsroom", "Media Kit", "Statements", "Contact"] },
+type FooterLink = { label: string; href: string };
+type Column = { title: string; links: FooterLink[] };
+
+const columns: Column[] = [
+  {
+    title: "Movement",
+    links: [
+      { label: "About", href: "/about" },
+      { label: "Manifesto", href: "/#manifesto" },
+      { label: "Campaigns", href: "/#campaigns" },
+      { label: "Leadership", href: "/#leadership" },
+    ],
+  },
+  {
+    title: "Network",
+    links: [
+      { label: "Events", href: "/events" },
+      { label: "Volunteer", href: "/volunteer" },
+      { label: "Chapters", href: "/#chapters" },
+      { label: "Donate", href: "/#join" },
+    ],
+  },
+  {
+    title: "Press",
+    links: [
+      { label: "Newsroom", href: "#" },
+      { label: "Media Kit", href: "#" },
+      { label: "Statements", href: "#" },
+      { label: "Contact", href: "#" },
+    ],
+  },
 ];
 
 export default function Footer() {
@@ -39,14 +66,15 @@ export default function Footer() {
               </h4>
               <ul className="space-y-3">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      data-cursor="hover"
                       className="relative inline-block font-label uppercase text-sm tracking-[0.15em] text-foreground/70 hover:text-foreground group"
                     >
-                      {link}
+                      {link.label}
                       <span className="absolute -bottom-0.5 left-0 h-px w-full bg-accent origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
